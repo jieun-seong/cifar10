@@ -1,0 +1,63 @@
+
+We often use iterative optimization algorithms such as Gradient Descent to
+find $\mathbf{w}$ that minimizes a loss function $f(\mathbf{w})$. Recall that in gradient descent,
+we start with an initial value of $\mathbf{w}$ (say $\mathbf{w}^{(1)}$) and iteratively take a step in the direction
+of the negative of the gradient of the objective function \ie
+%
+\begin{equation}
+\mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} - \eta\nabla f(\mathbf{w}^{(t)})
+\end{equation}
+%
+for learning rate $\eta > 0$.
+
+In this question, we will develop a slightly deeper understanding of this update rule, in particular for 
+minimizing a convex function $f(\mathbf{w})$. Note: this analysis will not directly carry over to training neural networks 
+since loss functions for training neural networks are typically not convex, but this will (a) develop intuition 
+and (b) provide a starting point for research in non-convex optimization (which is beyond the scope of this class). 
+
+
+Recall the first-order Taylor approximation of $f$ at $\mathbf{w}^{(t)}$:
+%
+\begin{align}\label{first-order-approx}
+f(\mathbf{w}) \approx f(\mathbf{w}^{(t)}) + \langle \mathbf{w}-\mathbf{w}^{(t)},
+\nabla f(\mathbf{w}^{(t)}) \rangle
+\end{align}
+%
+When $f$ is convex, this approximation forms a lower bound of $f$, \ie 
+\begin{align}
+f(\mathbf{w}) \ge 
+\underbrace{
+f(\mathbf{w}^{(t)}) + \langle \mathbf{w}-\mathbf{w}^{(t)}, 
+\nabla f(\mathbf{w}^{(t)}) \rangle
+}_{\text{affine lower bound to $f(\cdot)$}}
+ \quad \forall \mathbf{w}
+\end{align}
+%
+
+Since this approximation
+is a `simpler' function than $f(\cdot)$, we could consider minimizing the approximation instead of $f(\cdot)$.
+Two immediate problems: (1) the approximation is affine (thus unbounded from below) and
+(2) the approximation is faithful for $\mathbf{w}$ close to $\mathbf{w}^{(t)}$.
+To solve both problems, we add a squared $\ell_2$ \emph{proximity term} to the approximation minimization:
+%
+\begin{equation}
+\argmin_\mathbf{w}
+\underbrace{
+f(\mathbf{w}^{(t)}) + \langle \mathbf{w}-\mathbf{w}^{(t)}, \nabla f(\mathbf{w}^{(t)}) \rangle
+}_{\text{affine lower bound to $f(\cdot)$}}
++
+\underbrace{
+\frac{\lambda}{2}
+}_{\text{trade-off}}
+\underbrace{
+\norm{\mathbf{w} - \mathbf{w}^{(t)}}^2
+}_{\text{proximity term}}
+\end{equation}
+%
+
+Notice that the optimization problem above is an unconstrained quadratic programming problem,
+meaning that it can be solved in closed form (hint: gradients).
+
+What is the solution $\mathbf{w}^*$ of the above optimization?
+What does that tell you about the gradient descent update rule?
+What is the relationship between $\lambda$ and $\eta$?

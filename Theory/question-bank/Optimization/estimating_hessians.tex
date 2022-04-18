@@ -1,0 +1,114 @@
+
+Optimization is an extremely important part of deep learning. In the previous question, we explored gradient descent, which uses the direction of maximum change to minimize a loss function. However, gradient descent leaves a few questions unresolved -- how do we choose the learning rate $\eta$? If $\eta$ is small, we will take a long time to reach the optimal point; if $\eta$ is large, it will oscillate between one side of the curve and another. So what should we do? 
+
+One solution is to use Hessians, which is a measure of curvature, or the rate of change of the gradients. Intuitively, if we knew how steep a curve were, we would know how fast we should move in a given direction. This is the intuition behind second-order optimization methods such as Newton's method. 
+
+Let us formally define a Hessian matrix $\mathbf{H}$ of a function $f$ as a square $n \times n$ matrix containing all second partial derivatives of $f$, i.e.:
+
+\[ \mathbf{H} = 
+\begin{bmatrix}
+    \frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & \dots  & \frac{\partial^2 f}{\partial x_1 \partial x_n} \\
+    \frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2 } & \dots  & \frac{\partial^2 f}{\partial x_2 \partial x_n} \\
+    \vdots & \vdots  & \ddots & \vdots\\
+    \frac{\partial^2 f}{\partial x_n \partial x_1} & \frac{\partial^2 f}{\partial x_n \partial x_2} & \dots  & \frac{\partial^2 f}{\partial x_n^2} \\
+\end{bmatrix}
+\]
+
+Recall the second-order Taylor approximation of $f$ at $\mathbf{w}^{(t)}$:
+%
+\begin{align}
+f(\mathbf{w}) \approx f(\mathbf{w}^{(t)}) + \langle \mathbf{w}-\mathbf{w}^{(t)},
+\nabla f(\mathbf{w}^{(t)}) \rangle + \frac{1}{2}(\mathbf{w}-\mathbf{w}^{(t)})^\top
+\mathbf{H} (\mathbf{w}-\mathbf{w}^{(t)})
+\end{align}
+
+\begin{enumerate} 
+\item What is the solution to the following optimization problem? %$\mathbf{w}^*$ of the above optimization?
+\begin{align}
+    \argmin_\mathbf{w}
+    \left[
+    %\underbrace{
+    f(\mathbf{w}^{(t)}) + \langle \mathbf{w}-\mathbf{w}^{(t)},
+    \nabla f(\mathbf{w}^{(t)}) \rangle + \frac{1}{2}(\mathbf{w}-\mathbf{w}^{(t)})^\top
+    \mathbf{H} (\mathbf{w}-\mathbf{w}^{(t)})
+    %}_{\text{second-order approximation of $f(\cdot)$}}
+    \right]
+\end{align}
+What does that tell you about how to set the learning rate $\eta$ in gradient descent?
+\end{enumerate}
+
+Now that we've derived Netwon's update algorithm, we should also mention that there is a catch to using Newton's method. Newton's method requires us to 1) calculate $\mathbf{H}$, and 2) invert $\mathbf{H}$. Having to compute a Hessian is expensive; $\mathbf{H}$ is massive and we would also have to figure out how to store it. 
+
+
+\begin{enumerate}[resume] 
+\item Consider an MLP with 3 fully-connected layers, each with 50 hidden neurons, except for the output layer, which represents 10 classes. We can represent the transformations as 
+$\mathbf{x} \in \mathbb{R}^{50} \longrightarrow 
+\mathbf{h}^{(1)} \in \mathbb{R}^{50} \longrightarrow 
+\mathbf{h}^{(2)} \in \mathbb{R}^{50} \longrightarrow
+\mathbf{s} \in \mathbb{R}^{10}$. 
+Assume that $\mathbf{x}$ does not include any bias feature appended to it. 
+How many parameters are in this MLP? What is the size of the corresponding Hessian?
+\end{enumerate}
+
+% \begin{enumerate} 
+% \item  $\Delta \mathbf{w} = -\eta \mathbf{H}_f^{-1} \nabla f$. (Hint: Consider a Taylor series approximation).
+% \end{enumerate}
+
+Rather than store and manipulate the Hessian $\mathbf{H}$ directly, we will 
+%Rather than computing $\mathbf{H}^{-1} \nabla f$ directly, 
+instead focus on being able to compute the result of a Hessian-vector product 
+$\mathbf{H}\mathbf{v}$, where $\mathbf{v}$ is an arbitrary vector. 
+Why? Because in many cases one does not need the full Hessian but only $\mathbf{H}\mathbf{v}$.
+Computing $\mathbf{H}\mathbf{v}$ is a core building block for computing a number of quantities including $\mathbf{H}^{-1} \nabla f$ (hint, hint). 
+You will next show a surprising result that it is 
+possible to `extract information from the Hessian', specifically to compute 
+the Hessian-vector product 
+%This allows information to be extracted from the Hessian 
+without ever explicitly calculating or storing the Hessian itself!
+
+Consider the Taylor series expansion of the gradient operator about a point in weight space: 
+\begin{align}\label{second-order-expantion}
+    \nabla_\mathbf{w} (\mathbf{w} + \Delta \mathbf{w}) = \nabla_\mathbf{w} (\mathbf{w}) + \mathbf{H} \Delta \mathbf{w} + O(|| \Delta \mathbf{w} ||^2)
+\end{align}
+
+where $\mathbf{w}$ is a point in weight space, $\Delta \mathbf{w}$ is a perturbation of $\mathbf{w}$, $\nabla_w$ is the gradient, and $\nabla_\mathbf{w} (\mathbf{w} + \Delta \mathbf{w})$ is the gradient of $f$ evaluated at $\mathbf{w} + \Delta \mathbf{w}$.
+
+If you have difficulty understanding this expression above, consider starting with Eqn \ref{first-order-approx}, replacing 
+$\mathbf{w} - \mathbf{w}^{(t)}$ with $\Delta \mathbf{w}$ and $f(\cdot)$ with $\nabla_\mathbf{w}(\cdot)$. 
+
+
+% Add more explanation to 4(b). What specifically should they report? Something like “express Hv in terms of gradients of blah”. Basically, what should they try to get on the RHS. And why might it be an approximation.
+
+\begin{enumerate}[resume] 
+\item 
+Use Eqn \ref{second-order-expantion} to derive a numerical approximation of $\mathbf{H}\mathbf{v}$ (in terms of $\nabla_{\mathbf{w}}$). 
+
+Hint: Consider choosing $\Delta \mathbf{w} = r\mathbf{v}$, where $\mathbf{v}$ is a vector and $r$ is a small number.
+
+\end{enumerate}
+ 
+This approximation you derived above is susceptible to numerical instability. We would like a method that is free of these numerical issues and is exact instead of an approximation. To that end, let's now define a useful operator, known as the $\mathcal{R}$-operator. The $\mathcal{R}$-operator with respect to $\mathbf{v}$ is defined as: 
+\begin{align}
+    \mathcal{R}_{\mathbf{v}}\{f(\mathbf{w})\} = \frac{\partial}{\partial r} f (\mathbf{w} + r\mathbf{v})\Bigr\rvert_{r = 0}
+\end{align}
+
+
+%  In 4(c), first define the operator. Provide it a name (“R-operator”). Ask them to prove maybe 1 or 2 properties of R operators from here (https://cswhjiang.github.io/2015/10/13/Roperator/). Then ask them how they can use the R operator to compute Hv exactly.
+ 
+\begin{enumerate}[resume] 
+
+\item The $\mathcal{R}$-operator has many useful properties. Let's first prove some of them. Show that: 
+
+\begin{center}
+    $\mathcal{R}_{\mathbf{v}}\{cf(\mathbf{w})\}$ = $c\mathcal{R}_{\mathbf{v}}\{f(\mathbf{w})\}$ \qquad \qquad \qquad \qquad  [\text{Linearity under scalar multiplication}]
+    
+
+    $\mathcal{R}_{\mathbf{v}}\{f(\mathbf{w})g(\mathbf{w})\}$ = $\mathcal{R}_{\mathbf{v}}\{f(\mathbf{w})\}g(\mathbf{w}) + f(\mathbf{w})\mathcal{R}_{\mathbf{v}}\{g(\mathbf{w})\}$ \quad [\text{Product Rule of R-operators}]
+
+\end{center}
+
+
+\item Now, instead of numerically approximating $\mathbf{H}\mathbf{v}$, use the $\mathcal{R}$-operator to derive an equation to exactly calculate $\mathbf{H}\mathbf{v}$.
+
+\item Explain how might you implement $\mathbf{H}\mathbf{v}$ in MLPs if you already have access to an auto-differentiation library. 
+\end{enumerate}

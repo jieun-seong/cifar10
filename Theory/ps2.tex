@@ -1,0 +1,157 @@
+\documentclass[11pt,english]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Package imports are stored in assets/base-packages.tex
+% Packages specific to this pset can be imported here.
+
+\listfiles
+\input{assets/base-packages.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shortcuts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{assets/mysymbols}
+\input{assets/math_definition.tex}
+\renewcommand{\hide}[1]{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title / Author
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\title{CS 4644/7643: Deep Learning\\
+Spring 2022 \\
+Problem Set 2}
+
+% NOTE: Any changes to instructor, TAs, or piazza link should be done in the file below
+\input{assets/instructor-and-TAs}
+\date{Due: 11:59pm, February 23, 2022}
+\maketitle
+
+
+\paragraph*{Instructions}
+\begin{enumerate}
+\item We will be using Gradescope to collect your assignments.  Please read the following instructions for submitting to Gradescope carefully!
+     \begin{itemize}
+          \item
+               For the \textbf{HW2 Writeup} component on Gradescope, you could upload one single PDF containing the answers to all the theory questions and the report for the coding problems. \textbf{However, the solution to each problem/subproblem must be on a separate page. When submitting to Gradescope, please make sure to mark the page(s) corresponding to each problem/sub-problem.} Likewise, the pages of the report must also be marked to their corresponding subproblems.
+          \item
+               For the \textbf{HW2 Code Part 1 and Part 2} components on Gradescope, 
+               please use the \texttt{collect\_submission.py} script provided and upload the resulting zip files to each Gradescope section respectively. Please make sure you have saved the most recent version of your codes.
+          \item
+               Note: This is a large class and Gradescope's assignment segmentation features are essential.
+               Failure to follow these instructions may result in parts of your assignment not being graded.
+               We will not entertain regrading requests for failure to follow instructions.
+     \end{itemize}
+
+\item
+     \LaTeX'd solutions are strongly encouraged (solution template available in the zip file in HW2 under the Assignments tab on Canvas),
+     but scanned handwritten copies are acceptable.
+     Hard copies are \textbf{not} accepted.
+
+
+\item We generally encourage you to collaborate with other students.
+
+You may talk to a friend,
+discuss the questions and potential directions for solving them. However, you need to write
+your own solutions and code separately, and \emph{not} as a group activity.
+Please list the students you collaborated with. \\ \\
+\end{enumerate}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Body
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Collaborators [0.5 points]}
+
+\input{question-bank/Misc/collaborators}
+
+
+\section{Gradient Descent}
+\begin{enumerate}[start]
+
+\item
+\textbf{[3 points]}
+\input{question-bank/Optimization/gradient_descent_update_rule}
+
+\item
+\textbf{[4 points]}
+\input{question-bank/Optimization/gradient_descent_convergence_rate_1}
+
+\item
+\textbf{[4 points]}
+\input{question-bank/Optimization/gradient_descent_convergence_rate_2}
+
+\end{enumerate}
+
+
+\section{Estimating Hessians [Extra credit for 4644]}
+\begin{enumerate}[resume]
+
+\item
+\textbf{[6 points]}
+\input{question-bank/Optimization/estimating_hessians}
+
+\end{enumerate}
+
+
+\section{Automatic Differentiation}
+\begin{enumerate}[resume]
+
+\item
+\textbf{[4 points]}
+\input{question-bank/Misc/automatic_differentiation}
+
+\end{enumerate}
+
+\section{Convolutions}
+\begin{enumerate}[resume]
+
+\item 
+\textbf{[5 points]}
+\input{question-bank/Convolutions/circulant_matrices}
+
+\end{enumerate}
+
+\section{Signal Reconstruction [Extra credit for 4644 and 7643]}
+\begin{enumerate}[resume]
+
+\item 
+\textbf{[7 points]}
+\input{question-bank/Misc/signal_reconstruction}
+
+\end{enumerate}
+
+\section{SGD}
+\begin{enumerate}[resume]
+
+\item 
+\textbf{[5 points]}
+\input{question-bank/Optimization/sgd_decrease_loss}
+
+\end{enumerate}
+
+
+\section{Paper Review [Extra credit for 4644, regular credit for 7643]}
+\begin{enumerate}[resume]
+
+\item 
+\textbf{[4 points]}
+\input{question-bank/Paper_Reviews/ICLR_2017_rethinking_generalization}
+
+\end{enumerate}
+
+
+\section{Implement and train a network on CIFAR-10}
+\begin{enumerate}[resume]
+
+\item
+\textbf{[16 points + 9 Extra Credit]}
+\input{question-bank/Coding/learn_CIFAR_10}
+
+\end{enumerate}
+
+\end{document}

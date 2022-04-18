@@ -1,0 +1,71 @@
+
+We'll start to introduce the properties of convolutions here that serve as a foundation for many computer vision applications in deep learning. 
+In class, we discussed convolutions. In this question, we will develop formal intuition around a slight modification of that idea -- circular convolutions. 
+
+
+First, let's define a circular convolution of two n-dimensional vectors $\mathbf{x}$ and $\mathbf{w}$:
+
+\begin{equation}
+(\mathbf{x} * \mathbf{w})_{i} = \sum_{k=0}^{n-1} x_{k} w_{(i-k)\text{ mod } n}  
+\end{equation}
+
+We can write the above equation as a matrix-vector multiplication. 
+
+Given an n-dimensional vector $\mathbf{a} = (a_0, ..., a_{n-1})$, we define the associated matrix $C_\mathbf{a}$ whose first column is made up of these numbers, and each subsequent column is obtained by a circular shift of the previous column. 
+
+\[ C_\mathbf{{a}} = 
+\begin{bmatrix}
+    a_0 & a_{n-1} & a_{n-2} & \dots  & a_1 \\
+    a_1 & a_0 & a_{n-1} & & a_2  \\
+    a_2 & a_1 & a_0 &  & a_3\\
+    \vdots &  & \ddots  & \ddots & \vdots\\
+    a_{n-1} & a_{n-2} & a_{n-3} & \dots & a_0 \\
+\end{bmatrix}
+\]
+
+
+Such matrices are called \textit{circulants}. Any convolution $\mathbf{x} * \mathbf{w}$ can be equivalently represented as a multiplication by the circulant matrix $C_\mathbf{a}\mathbf{x}$.
+
+
+Note that a circulant matrix is a kind of Toeplitz matrix with the additional property that $a_i=a_{i+n}$. 
+Next, let's introduce a special type of circulant called a shift matrix. A shift matrix is a circulant matrix where only one dimension of the vector $\mathbf{a}$ can be set to 1, \textit{i.e.}, $\mathbf{a} = (0, 1, ..., 0)$. Let $S$  be the circular right-shift operator,
+defined by the following action on vectors:
+
+\[ S\mathbf{x} = 
+\begin{bmatrix}
+    0 &  &  &  & 1 \\
+    1 &  &  & & \\
+    &  & \ddots & \ddots & \\
+    &  &  & 1 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_0 \\
+    x_1 \\
+    \vdots \\
+    x_{n-1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{n-1} \\
+    x_0 \\
+    \vdots \\
+    x_{n-2}
+\end{bmatrix}
+\]
+
+Notice that after applying the shift-matrix, all the element of $\mathbf{x}$ have been shifted by 1.
+
+\begin{enumerate}
+\item Prove that \emph{any} circulant matrix is commutative with a shift matrix. 
+Note that this directly implies that convolutions are commutative with shift operators. 
+\end{enumerate}
+
+This leads to very important property called translation or shift equivariance. A function is shift equivariant if $f(S\mathbf{x})=Sf(\mathbf{x}).$ Convolution's commutativity with shift implies that it does not matter whether we first shift a vector and then convolve it, or first convolve and then shift -- the result will be the same. 
+Notice that you just proved that circular convolutions are shift equivariant. 
+
+\begin{enumerate}[resume]
+\item Now prove that the a (circular) convolution is the \emph{only} linear operation with shift equivariance. (Hint: how do you prove a bidirectional implication?)
+
+\item (Open-ended question) What does this tell you about designing deep learning architectures for processing 
+spatial or spatio-temporal data like images and videos? 
+\end{enumerate}

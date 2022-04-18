@@ -1,0 +1,15 @@
+
+Consider an objective function comprised of $N=2$ terms:
+
+\begin{equation}
+f(w) = \frac{1}{2} (w-2)^2 + \frac{1}{2}(w+1)^2
+\end{equation}
+
+Now consider using SGD (with a batch-size $B=1$) to minimize this objective. Specifically, in each iteration,
+we will pick one of the two terms (uniformly at random), and take a step in the direction of the negative gradient, with a constant
+step-size of $\eta$.
+%If we sample one data point every iteration,
+%does SGD guarantee to decrease
+You can assume $\eta$ is small enough that every update does result in improvement (aka descent) on the sampled term.
+
+Is SGD guaranteed to decrease the overall loss function in every iteration? If yes, provide a proof. If no, provide a counter-example.

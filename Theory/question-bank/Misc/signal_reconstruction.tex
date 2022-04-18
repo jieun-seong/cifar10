@@ -1,0 +1,78 @@
+
+Often, your data isn't as clean as you would like it to be; it could be corrupt or incomplete in many ways. There have been quite a few advances in the field of deep learning attempting to fix this by learning a mapping between corrupt and clean observations. 
+This is typically done by training a regression model, an MLP or a CNN for instance, with a large number of pairs $(\tilde{x}_{i},y_i)$ of corrupted inputs $\tilde{x}_{i}$ and clean targets $y_i$ designed to minimize empirical risk:
+
+\begin{equation}
+\argmin_{\theta} \sum_{i} L(f_{\theta}(\tilde{x}_{i}), y_i),
+\end{equation}
+
+where $f_{\theta}$ is a parametric family of mappings (such as CNNs) under the Loss function $L$.
+
+\begin{enumerate}
+\item Can you think of real world data sets where signal construction can be a very valuable tool?
+\end{enumerate}
+
+Based on your answers above, you will realize that the availability of paired training data (clean and corrupted), can be a hard task. Using the series of questions below, we will see that it is indeed possible to learn to turn noisy images into clean images, only by looking at noisy ones. 
+
+Assume that we have a set of unreliable measurements $(y_1, y_2....)$ of the room temperature where $y_i$ are scalars, $y_i \in \mathbb{R}$.  A common strategy
+for estimating the true unknown temperature is to find a
+number $z$ that has the smallest average deviation from the
+measurements according to some loss function $L$:
+
+\begin{equation}
+\argmin_{z} \mathbb{E} \left[L(z, \mathbf{y})\right],
+\end{equation}
+
+\begin{enumerate}[resume]
+\item What is the minimum if $L$ is the $L_1$ loss?
+\end{enumerate}
+
+\begin{enumerate}[resume]
+\item What is the minimum if $L$ is the $L_2$ loss?
+\end{enumerate}
+
+\begin{enumerate}[resume]
+\item What happens to the minimum when using $L_2$ loss if I alter my original dataset $D$ like so:
+% D’ = {(x, y +-eps) | (x,y) in D and eps \tilde N(0, sigma)}
+\begin{equation}
+D' = \left\{(x_i, y_i \pm\eps) \mid (x_i,y_i) \in D, \eps \sim \mathcal{N}(0,\,\sigma)\right\}
+\end{equation}
+\end{enumerate}
+
+Training neural network regressors is a generalization of
+this point estimation procedure. Observe the form of the
+typical training task for a set of input-target pairs $(x_i
+, y_i)$, where the network function $f_\theta(\mathbf{x})$ is parameterized by $\theta$:
+
+\begin{equation}
+\argmin_{\theta} \mathbb{E}_{(x,y)} \left[L(f_{\theta}(\mathbf{x}), \mathbf{y})\right],
+\end{equation}
+
+If we remove the dependency on input data, and
+use a trivial $f_\theta$ that merely outputs a learned scalar, the task reduces to $(19)$. 
+
+\begin{enumerate}[resume]
+\item Conversely, the full training task decomposes to the same minimization problem at every training sample. Prove this statement by showing that $(21)$ is equivalent to: 
+\begin{equation}
+\argmin_{\theta} \mathbb{E}_{x} \left[ \mathbb{E}_{y|x} \left[L(f_{\theta}(\mathbf{x}), \mathbf{y})\right]\right],
+\end{equation}
+\end{enumerate}
+
+Thus, the network can, in theory, minimize this loss by solving the
+point estimation problem separately for each input sample.
+\textbf {Hence, the properties of the underlying loss are inherited by neural network training.}
+
+The usual process of training regressors by $(18)$ over
+a finite number of input-target pairs $(x_i, y_i)$ hides a subtle
+point: instead of the $1:1$ mapping between inputs and targets (falsely) implied by that process, the mapping, in reality,
+is multiple-valued. For instance, a low resolution image can be explained by many high resolution images. In
+other words, $p(\mathbf{y}|\mathbf{x})$ is the highly complex distribution of
+natural images consistent with the low-resolution $\mathbf{x}$. 
+
+\begin{enumerate}[resume]
+\item Using the above observation regarding the many:1 mapping between inputs and targets, the formulation of $L_2$ minimization that you calculated in (c), and the observation that you made in (d), can you come up with an empirical risk minimization task (with a justification) where both inputs and targets are now drawn from a corrupted distribution?
+\end{enumerate}
+
+\begin{enumerate}[resume]
+\item Given infinite data, what is the solution of the above minimization task?
+\end{enumerate}

@@ -1,0 +1,15 @@
+
+Let's prove a lemma that will initially seem devoid of the rest of the analysis but will come 
+in handy in the next sub-question when we start combining things. 
+Specifically, the analysis in this sub-question holds for any $\mathbf{w}^{\star}$, but in the next sub-question  
+we will use it for $\mathbf{w}^{\star}$ that minimizes $f(\mathbf{w})$. 
+
+Consider a sequence of vectors $\mathbf{v}_1, \mathbf{v}_2, ..., \mathbf{v}_T$, 
+and an update equation of the form $\mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} - \eta\mathbf{v}_{t}$ 
+with $\mathbf{w}^{(1)} = 0$. 
+Show that: 
+
+\begin{equation}
+\sum_{t=1}^T \langle \mathbf{w}^{(t)}-\mathbf{w}^{\star}, \mathbf{v}_t \rangle \leq
+\frac{\norm{\mathbf{w}^{\star}}^2}{2\eta} + \frac{\eta}{2} \sum_{t=1}^T \norm{\mathbf{v}_t}^2
+\end{equation}

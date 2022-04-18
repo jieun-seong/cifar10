@@ -1,0 +1,17 @@
+
+Now let's start putting things together and analyze the convergence rate of gradient descent \ie
+how fast it converges to $\mathbf{w}^\star$. For this question, assume that $f$ is convex and $\rho$-Lipschitz. A function that is $\rho$-Lipschitz is one where the norm of its gradient is bounded by $\rho$, i.e. $\norm{\nabla f(\mathbf{w})} \leq \rho$.
+
+First, show that for $\mathbf{\bar w} = \frac{1}{T} \sum_{t=1}^T \mathbf{w}^{(t)}$
+
+\begin{equation}
+f(\mathbf{\bar w}) - f(\mathbf{w}^\star) \leq \frac{1}{T} \sum_{t=1}^T
+\langle \mathbf{w}^{(t)}-\mathbf{w}^{\star}, \nabla f(\mathbf{w}^{(t)}) \rangle
+\end{equation}
+
+Next, use the result from part $2$, with upper bounds $B$ and $\rho$ for
+$\norm{\mathbf{w}^\star}$ and $\norm{\nabla f(\mathbf{w}^{(t)})}$
+respectively and show that for fixed $\eta = \sqrt{\frac{B^2}{\rho^2T}}$,
+the convergence rate of gradient descent is $\mathcal{O}(1/\sqrt{T})$
+\ie the upper bound for $f(\mathbf{\bar w}) - f(\mathbf{w}^\star)$
+$\propto$ $\frac{1}{\sqrt{T}}$.
